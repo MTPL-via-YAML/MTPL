@@ -1,0 +1,165 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    /* Brand Colors */
+    --color-primary: 37 99 235; /* Blue 600 */
+    --color-primary-light: 96 165 250; /* Blue 400 */
+    --color-primary-dark: 29 78 216; /* Blue 700 */
+
+    /* Surface Colors */
+    --color-surface-50: 248 250 252;
+    --color-surface-100: 241 245 249;
+    --color-surface-200: 226 232 240;
+    --color-surface-white: 255 255 255;
+
+    /* Text Colors */
+    --color-text-primary: 15 23 42; /* Slate 900 */
+    --color-text-secondary: 71 85 105; /* Slate 600 */
+    --color-text-muted: 148 163 184; /* Slate 400 */
+
+    /* Status Colors */
+    --color-success: 34 197 94;
+    --color-warning: 234 179 8;
+    --color-error: 239 68 68;
+
+    /* Spacing System (Base 8px) */
+    --spacing-base: 0.25rem; /* 4px */
+    
+    /* Animation */
+    --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  /* Global Transition for Dark Mode */
+  *, *::before, *::after {
+    transition-property: background-color, border-color, color, fill, stroke;
+    transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+    transition-duration: 300ms;
+  }
+
+  @media (prefers-color-scheme: dark) {
+    :root {
+      /* Brand Colors - Adjusted for Dark Mode */
+      --color-primary: 59 130 246; /* Blue 500 */
+      --color-primary-light: 96 165 250; /* Blue 400 */
+      --color-primary-dark: 37 99 235; /* Blue 600 */
+
+      /* Surface Colors - Dark Mode */
+      --color-surface-50: 15 23 42; /* Slate 900 */
+      --color-surface-100: 30 41 59; /* Slate 800 */
+      --color-surface-200: 51 65 85; /* Slate 700 */
+      --color-surface-white: 30 41 59; /* Slate 800 (Card background) */
+
+      /* Text Colors - Dark Mode */
+      --color-text-primary: 241 245 249; /* Slate 100 */
+      --color-text-secondary: 148 163 184; /* Slate 400 */
+      --color-text-muted: 100 116 139; /* Slate 500 */
+    }
+
+    body {
+      background-color: rgb(15, 23, 42);
+    }
+    
+    /* In dark mode, card background needs to be lighter than base */
+    .card {
+      @apply border-surface-200;
+    }
+  }
+
+  html, body {
+    height: 100%;
+    width: 100%;
+    margin: 0;
+    padding: 0;
+    /* touch-action: none; */
+    /* overflow: hidden; */
+  }
+
+  body {
+    @apply bg-surface-50 text-text-primary font-sans antialiased;
+    background-color: rgb(248, 250, 252); /* Fallback */
+  }
+
+  /* Custom Scrollbar */
+  ::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+  }
+  ::-webkit-scrollbar-track {
+    @apply bg-transparent;
+  }
+  ::-webkit-scrollbar-thumb {
+    @apply bg-slate-200 rounded-full hover:bg-slate-300 transition-colors;
+  }
+
+  /* Restore touch action for scrollable elements */
+  .overflow-auto,
+  .overflow-y-auto,
+  .overflow-x-auto,
+  textarea {
+    touch-action: pan-y pan-x;
+  }
+
+  /* Safe Area Backgrounds for PWA */
+  .safe-area-top-bg {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: env(safe-area-inset-top);
+    background-color: var(--color-surface-50);
+    z-index: 1000;
+    pointer-events: none;
+    transition: background-color 300ms cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  @media (prefers-color-scheme: dark) {
+    .safe-area-top-bg {
+      background-color: rgb(15, 23, 42); /* Slate 900 */
+    }
+  }
+}
+
+@layer components {
+  .btn {
+    @apply inline-flex items-center justify-center px-4 py-2 rounded-lg font-medium transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-offset-1 disabled:opacity-50 disabled:cursor-not-allowed;
+  }
+  
+  .btn-primary {
+    @apply bg-primary text-white hover:bg-primary-dark focus:ring-primary shadow-sm hover:shadow-md active:scale-95;
+  }
+
+  .btn-secondary {
+    @apply bg-white text-text-secondary border border-surface-200 hover:bg-surface-50 hover:text-text-primary focus:ring-surface-200 shadow-sm active:scale-95;
+  }
+
+  .btn-ghost {
+    @apply text-text-secondary hover:bg-surface-100 hover:text-text-primary focus:ring-surface-200;
+  }
+
+  .card {
+    @apply bg-white border border-surface-200 rounded-xl shadow-sm transition-all duration-200;
+  }
+
+  .card-hover {
+    @apply hover:shadow-md hover:border-primary/30 hover:-translate-y-0.5;
+  }
+
+  .input {
+    @apply w-full px-4 py-2 bg-surface-50 border border-surface-200 rounded-lg text-sm text-text-primary placeholder:text-text-muted focus:bg-white focus:border-primary focus:ring-2 focus:ring-primary/20 outline-none transition-all duration-200;
+  }
+}
+
+/* Print Overrides */
+@media print {
+  html, body {
+    height: auto !important;
+    overflow: visible !important;
+    background: white;
+  }
+  .no-print {
+    display: none !important;
+  }
+}
